@@ -1,21 +1,11 @@
 import * as request from 'supertest';
-import { INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { createSandbox } from 'sinon';
 import { AppModule } from 'src/app.module';
-import { AppLogger } from 'src/infraestructura/configuracion/ceiba-logger.service';
-import { FiltroExcepcionesDeInfraestructura } from 'src/infraestructura/excepciones/filtro-excepciones-infraestructura';
-import { FiltroExcepcionesDeNegocio } from 'src/infraestructura/excepciones/filtro-excepciones-negocio';
-
-const sinonSandbox = createSandbox();
 
 describe('pruebas controlador salas', () => {
   let app: INestApplication;
   let server: request.SuperTest<request.Test>;
-
-  /**
-   * No Inyectar los módulos completos (Se trae TypeORM y genera lentitud al levantar la prueba, traer una por una las dependencias)
-   **/
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -24,16 +14,56 @@ describe('pruebas controlador salas', () => {
 
     app = moduleRef.createNestApplication();
     server = app.getHttpServer();
-    const logger = await app.resolve(AppLogger);
-    logger.customError = sinonSandbox.stub();
-    app.useGlobalFilters(
-      new FiltroExcepcionesDeNegocio(logger),
-      new FiltroExcepcionesDeInfraestructura(logger),
-    );
     await app.init();
   });
-
   afterAll(async () => {
     await app.close();
+  });
+
+  it('deberia obtener las salas disponibles', async () => {
+    const serverResponse = await request(server)
+      .get('/salas')
+      .send({ rolesGuard: ['admin'] })
+      .expect(HttpStatus.OK)
+      .then(response => response.body);
+
+    expect(await serverResponse).toHaveProperty('payload');
+    expect(await serverResponse).toHaveProperty('mensaje', 'Salas Encontradas');
+  });
+
+  it('deberia obtener sala por nombre', async () => {
+    const serverResponse = await request(server)
+      .get('/salas/salaJestTesting')
+      .send({ rolesGuard: ['admin'] })
+      .expect(HttpStatus.OK)
+      .then(response => response.body);
+
+    expect(await serverResponse).toHaveProperty('payload');
+    expect(await serverResponse).toHaveProperty('mensaje', 'Salas Encontradas');
+  });
+
+  it('deberia actualizar la sala por nombre', async () => {
+    const serverResponse = await request(server)
+      .put('/salas/salaJestTesting')
+      .send({ rolesGuard: ['admin'], nombreSala: 'salaJestTesting' })
+      .expect(HttpStatus.ACCEPTED)
+      .then(response => response.body);
+
+    expect(await serverResponse).toHaveProperty('payload');
+    expect(await serverResponse).toHaveProperty('mensaje', 'Salas Encontradas');
+  });
+
+  it('deberia actualizar la sala por Id', async () => {
+    const serverResponse = await request(server)
+      .put('/salas/5f722ed12c8ff71180e4c276')
+      .send({ rolesGuard: ['admin'], nombreSala: 'salaJestTesting' })
+      .expect(HttpStatus.ACCEPTED)
+      .then(response => response.body);
+
+    expect(await serverResponse).toHaveProperty('payload');
+    expect(await serverResponse).toHaveProperty(
+      'mensaje',
+      'Salas sala Actualizada correctamente',
+    );
   });
 });
