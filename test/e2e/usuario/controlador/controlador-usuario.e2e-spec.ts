@@ -26,6 +26,10 @@ describe('Pruebas al controlador de usuarios', () => {
    * No Inyectar los módulos completos (Se trae TypeORM y genera lentitud al levantar la prueba, traer una por una las dependencias)
    **/
 
+  beforeEach(() => {
+    jest.setTimeout(30000);
+  });
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
@@ -40,6 +44,10 @@ describe('Pruebas al controlador de usuarios', () => {
       new FiltroExcepcionesDeInfraestructura(logger),
     );
     await app.init();
+  });
+
+  beforeEach(() => {
+    jest.setTimeout(30000);
   });
 
   afterAll(async () => {

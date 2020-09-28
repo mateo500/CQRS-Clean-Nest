@@ -12,7 +12,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { AuthGuard } from '@nestjs/passport';
 import { ComandoRegistrarUsuario } from 'src/aplicacion/usuario/comando/registrar-usuario.comando';
 import { ManejadorRegistrarUsuario } from 'src/aplicacion/usuario/comando/registar-usuario.manejador';
 import { ManejadorListarUsuarios } from 'src/aplicacion/usuario/consulta/listar-usuarios.manejador';
@@ -23,7 +22,6 @@ import { ManejadorListarUsuarioPorNombre } from 'src/aplicacion/usuario/consulta
 import { ManejadorActualizarUsuario } from 'src/aplicacion/usuario/comando/actualizar-usuario.manejador';
 import { ComandoActualizarUsuario } from 'src/aplicacion/usuario/comando/actualizar-usuario.comando';
 import { ManejadorEliminarUsuario } from 'src/aplicacion/usuario/comando/eliminar-usuario.manejador';
-import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('usuarios')
 export class UsuarioControlador {

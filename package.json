@@ -78,6 +78,7 @@
       "json",
       "ts"
     ],
+    "testTimeout": 60000,
     "rootDir": ".",
     "testRegex": ".spec.ts$",
     "transform": {

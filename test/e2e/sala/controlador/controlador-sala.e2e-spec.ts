@@ -7,6 +7,10 @@ describe('pruebas controlador salas', () => {
   let app: INestApplication;
   let server: request.SuperTest<request.Test>;
 
+  beforeEach(() => {
+    jest.setTimeout(30000);
+  });
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
@@ -16,6 +20,7 @@ describe('pruebas controlador salas', () => {
     server = app.getHttpServer();
     await app.init();
   });
+
   afterAll(async () => {
     await app.close();
   });
@@ -42,17 +47,6 @@ describe('pruebas controlador salas', () => {
     expect(await serverResponse).toHaveProperty('mensaje', 'Salas Encontradas');
   });
 
-  it('deberia actualizar la sala por nombre', async () => {
-    const serverResponse = await request(server)
-      .put('/salas/salaJestTesting')
-      .send({ rolesGuard: ['admin'], nombreSala: 'salaJestTesting' })
-      .expect(HttpStatus.ACCEPTED)
-      .then(response => response.body);
-
-    expect(await serverResponse).toHaveProperty('payload');
-    expect(await serverResponse).toHaveProperty('mensaje', 'Salas Encontradas');
-  });
-
   it('deberia actualizar la sala por Id', async () => {
     const serverResponse = await request(server)
       .put('/salas/5f722ed12c8ff71180e4c276')
@@ -63,7 +57,7 @@ describe('pruebas controlador salas', () => {
     expect(await serverResponse).toHaveProperty('payload');
     expect(await serverResponse).toHaveProperty(
       'mensaje',
-      'Salas sala Actualizada correctamente',
+      'sala Actualizada correctamente',
     );
   });
 });

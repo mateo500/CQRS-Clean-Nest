@@ -11,6 +11,10 @@ describe('Controller Membresias', () => {
   let app: INestApplication;
   let server: request.SuperTest<request.Test>;
 
+  beforeEach(() => {
+    jest.setTimeout(30000);
+  });
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
