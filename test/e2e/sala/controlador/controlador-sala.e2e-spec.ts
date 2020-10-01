@@ -28,7 +28,7 @@ describe('pruebas controlador salas', () => {
   it('deberia obtener las salas disponibles', async () => {
     const serverResponse = await request(server)
       .get('/salas')
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK)
       .then(response => response.body);
 
@@ -39,7 +39,7 @@ describe('pruebas controlador salas', () => {
   it('deberia obtener sala por nombre', async () => {
     const serverResponse = await request(server)
       .get('/salas/salaJestTesting')
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK)
       .then(response => response.body);
 
@@ -50,7 +50,8 @@ describe('pruebas controlador salas', () => {
   it('deberia actualizar la sala por Id', async () => {
     const serverResponse = await request(server)
       .put('/salas/5f722ed12c8ff71180e4c276')
-      .send({ rolesGuard: ['admin'], nombreSala: 'salaJestTesting' })
+      .set('rolAdmin', 'admin')
+      .send({ nombreSala: 'salaJestTesting' })
       .expect(HttpStatus.ACCEPTED)
       .then(response => response.body);
 

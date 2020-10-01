@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ComandoRegistrarUsuario {
   @IsString()
-  @ApiProperty({ example: 'William' })
+  @ApiProperty({ minLength: 4, example: 'William' })
   public nombre: string;
 
   @IsString()

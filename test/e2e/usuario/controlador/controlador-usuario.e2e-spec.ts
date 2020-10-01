@@ -57,7 +57,7 @@ describe('Pruebas al controlador de usuarios', () => {
   it('debería listar los usuarios registrados', async () => {
     const serverReponse: any = request(server)
       .get('/usuarios')
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK)
       .then(response => response.body);
 
@@ -180,7 +180,7 @@ describe('Pruebas al controlador de usuarios', () => {
 
     await request(app.getHttpServer())
       .delete(`/usuarios/${await createTestUser}`)
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK);
   });
 
@@ -203,14 +203,14 @@ describe('Pruebas al controlador de usuarios', () => {
 
     await request(app.getHttpServer())
       .delete(`/usuarios/${await createTestUser}`)
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK);
   });
 
   it('deberia listar usuario por nombre', async () => {
     const createTestUser = await request(app.getHttpServer())
       .get('/usuarios/testingUserJest')
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK)
       .then(result => result.body);
 
@@ -224,7 +224,8 @@ describe('Pruebas al controlador de usuarios', () => {
   it('deberia actualizar el usuario', async () => {
     const createTestUser = await request(app.getHttpServer())
       .put('/usuarios/testingUserJest')
-      .send({ rolesGuard: ['admin'], nombre: 'testingUserJest' })
+      .set('rolAdmin', 'admin')
+      .send({ nombre: 'testingUserJest' })
       .expect(HttpStatus.ACCEPTED)
       .then(result => result.body);
 

@@ -1,4 +1,4 @@
-import { hash } from 'argon2';
+import { hash } from 'bcrypt';
 import { SinonStubbedInstance } from 'sinon';
 import { Usuario } from 'src/dominio/usuario/modelo/usuario';
 import { DaoUsuario } from 'src/dominio/usuario/puerto/dao/dao-usuario';
@@ -50,7 +50,7 @@ describe('ServicioLoginUsusario', () => {
 
   it('si la clave del usuario no concuerda con la almacenada en base de datos, deberia arrojar error', async () => {
     const clave = '12345';
-    const claveHashedEnDb = await hash(clave);
+    const claveHashedEnDb = await hash(clave, 10);
 
     daoUsuarioStub.listarPorNombre.returns(
       Promise.resolve({
@@ -81,7 +81,7 @@ describe('ServicioLoginUsusario', () => {
 
   it('si la clave del usuario concuerda con la almacenada en base de datos pero la cuenta esta inactiva, deberia arrojar error', async () => {
     const clave = '12345';
-    const claveHashedEnDb = await hash(clave);
+    const claveHashedEnDb = await hash(clave, 10);
 
     daoUsuarioStub.listarPorNombre.returns(
       Promise.resolve({
@@ -110,7 +110,7 @@ describe('ServicioLoginUsusario', () => {
 
   it('si la clave del usuario concuerda con la almacenada en base de datos, deberia retornar informacion del usuario', async () => {
     const clave = '12345';
-    const claveHashedEnDb = await hash(clave);
+    const claveHashedEnDb = await hash(clave, 10);
 
     const usuarioPrueba = {
       _id: '1234567899',
@@ -140,7 +140,7 @@ describe('ServicioLoginUsusario', () => {
 
   it('se deberia agregar un ingreso al usuario logearse', async () => {
     const clave = '12345';
-    const claveHashedEnDb = await hash(clave);
+    const claveHashedEnDb = await hash(clave, 10);
 
     const usuarioPrueba = {
       _id: '1234567899',
@@ -171,7 +171,7 @@ describe('ServicioLoginUsusario', () => {
 
   it('deberia retornar usuario con una entrada descontada si el usuario no es admin', async () => {
     const clave = '12345';
-    const claveHashedEnDb = await hash(clave);
+    const claveHashedEnDb = await hash(clave, 10);
 
     const usuarioPrueba = {
       _id: '1234567899',

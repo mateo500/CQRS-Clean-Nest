@@ -1,7 +1,7 @@
 import { RepositorioUsuario } from '../puerto/repositorio/repositorio-usuario';
 import { Usuario } from '../modelo/usuario';
 import { ErrorDeNegocio } from 'src/dominio/errores/error-de-negocio';
-import { hash } from 'argon2';
+import { hash } from 'bcrypt';
 
 export class ServicioRegistrarUsuario {
   constructor(private readonly _repositorioUsuario: RepositorioUsuario) {}
@@ -19,7 +19,7 @@ export class ServicioRegistrarUsuario {
       );
     }
 
-    const claveHashed = await hash(usuario.getClave);
+    const claveHashed = await hash(usuario.getClave, 10);
 
     usuario.setClaveHashed = claveHashed;
 

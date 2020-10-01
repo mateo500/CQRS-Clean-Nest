@@ -1,5 +1,5 @@
 import { DaoUsuario } from '../puerto/dao/dao-usuario';
-import { verify } from 'argon2';
+import { compare } from 'bcrypt';
 import { ErrorUsuarioNoAutorizado } from 'src/dominio/errores/error-usuario-no-autorizado';
 import { RepositorioUsuario } from '../puerto/repositorio/repositorio-usuario';
 
@@ -12,7 +12,7 @@ export class ServicioLoginUsuario {
   async ejecutar(nombre: string, clave: string) {
     const usuarioEncontrado = await this._daoUsuario.listarPorNombre(nombre);
 
-    const claveConcuerda = await verify(usuarioEncontrado.clave, clave);
+    const claveConcuerda = await compare(clave, usuarioEncontrado.clave);
 
     if (!claveConcuerda || !usuarioEncontrado.activo) {
       throw new ErrorUsuarioNoAutorizado(

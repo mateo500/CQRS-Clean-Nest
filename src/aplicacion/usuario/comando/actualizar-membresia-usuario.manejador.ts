@@ -12,11 +12,21 @@ export class ManejadorActualizarMembresia {
     comandoActualizarMembresia: ComandoActualizarMembresia,
     nombre: string,
   ) {
-    const usuario = await this._servicioActualizarMembresia.ejecutar(
-      nombre,
-      comandoActualizarMembresia.pago.tipoMembresia,
-    );
+    if (comandoActualizarMembresia.valor) {
+      const usuario = await this._servicioActualizarMembresia.ejecutar(
+        nombre,
+        comandoActualizarMembresia.tipoMembresia,
+        comandoActualizarMembresia.valor,
+      );
 
-    return usuario;
+      return usuario;
+    } else {
+      const usuario = await this._servicioActualizarMembresia.ejecutar(
+        nombre,
+        comandoActualizarMembresia.tipoMembresia,
+      );
+
+      return usuario;
+    }
   }
 }

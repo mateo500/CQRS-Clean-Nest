@@ -1,5 +1,5 @@
 import { RepositorioUsuario } from '../puerto/repositorio/repositorio-usuario';
-import { hash } from 'argon2';
+import { hash } from 'bcrypt';
 import { ComandoActualizarUsuario } from 'src/aplicacion/usuario/comando/actualizar-usuario.comando';
 
 export class ServicioActualizarUsuario {
@@ -13,7 +13,7 @@ export class ServicioActualizarUsuario {
     }); //remover propiedades undefined/
 
     if (datos.clave) {
-      const claveHashed = await hash(datos.clave);
+      const claveHashed = await hash(datos.clave, 10);
       datos = { ...datos, clave: claveHashed };
     }
 

@@ -11,10 +11,10 @@ import { Roles } from '../../../dominio/usuario/modelo/usuario';
 export class AdminGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    const roles: string[] = request.body.rolesGuard;
+    const rolAdmin: string = request.header('rolAdmin');
 
-    if (roles) {
-      if (roles.includes(Roles.admin)) {
+    if (rolAdmin) {
+      if (Object.keys(Roles).includes(rolAdmin)) {
         return true;
       }
     }

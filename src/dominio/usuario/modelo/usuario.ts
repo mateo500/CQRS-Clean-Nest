@@ -36,6 +36,7 @@ export class Usuario {
   ) {
     this.validarRoles(_roles);
     this.validarTamanoClave(_clave);
+    this.validarNombre(_nombre);
     this.nombre = _nombre;
     this.clave = _clave;
     this.roles = _roles;
@@ -55,10 +56,21 @@ export class Usuario {
   }
 
   private validarRoles(roles: string[]) {
-    for (const rol of roles) {
-      if (!roles.includes(Roles[rol])) {
-        throw new ErrorRolInvalido('El Rol ingresado no es valido', 400);
+    if (roles.length >= 1) {
+      for (const rol of roles) {
+        if (!roles.includes(Roles[rol])) {
+          throw new ErrorRolInvalido('El Rol ingresado no es valido', 400);
+        }
       }
+    }
+  }
+
+  private validarNombre(nombre: string) {
+    if (nombre.length < 3) {
+      throw new ErrorLongitudInvalida(
+        `El tamaño mínimo del nombre debe ser ${3}`,
+        400,
+      );
     }
   }
 

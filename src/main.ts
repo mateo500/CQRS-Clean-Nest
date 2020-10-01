@@ -10,6 +10,7 @@ import { FiltroExcepcionesDeInfraestructura } from './infraestructura/excepcione
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({ origin: '*' });
   const logger = await app.resolve(AppLogger);
   const configService = app.get(ConfigService);
 

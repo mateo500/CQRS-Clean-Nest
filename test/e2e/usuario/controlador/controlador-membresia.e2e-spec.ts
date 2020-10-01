@@ -28,7 +28,7 @@ describe('Controller Membresias', () => {
   it('deberia listar los dias de descuento', async () => {
     const serverReponse: any = request(server)
       .get('/membresias/descuentos')
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK)
       .then(response => response.body);
 
@@ -39,7 +39,8 @@ describe('Controller Membresias', () => {
   it('deberia actualizar la membresia del usuario', async () => {
     const serverResponse = request(server)
       .put('/membresias/testingUserJest')
-      .send({ pago: { tipoMembresia: 'premium' }, rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
+      .send({ tipoMembresia: 'premium' })
       .expect(HttpStatus.ACCEPTED)
       .then(response => response.body);
 
@@ -53,7 +54,7 @@ describe('Controller Membresias', () => {
   it('deberia obtener los descuentos para determinado usuario', async () => {
     const serverResponse = request(server)
       .get('/membresias/descuentos/testingUserJest?tipoMembresia=premium')
-      .send({ rolesGuard: ['admin'] })
+      .set('rolAdmin', 'admin')
       .expect(HttpStatus.OK)
       .then(response => response.body);
 

@@ -1,13 +1,15 @@
-import { IsNotEmptyObject, IsObject } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ComandoActualizarMembresia {
-  @IsNotEmptyObject()
-  @IsObject()
+  @IsString()
   @ApiProperty({
-    example: '{pago: {tipoMembresia: "premium"}}',
+    example: 'tipoMembresia: "premium"',
   })
-  public pago: {
-    tipoMembresia: string;
-  };
+  tipoMembresia: string;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty({ example: 'pago?: number' })
+  valor?: number;
 }
