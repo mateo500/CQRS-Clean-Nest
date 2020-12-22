@@ -1,4 +1,4 @@
-# Clean architecture with Nest.js and CQRS
+# Hexagonal architecture with Nest.js and CQRS
 
 
 Example project building a Gym admin system.
